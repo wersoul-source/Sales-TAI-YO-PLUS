@@ -25,7 +25,7 @@ The UI follows a Google-style minimal design with role-based themes.
 - Frontend: Next.js (Web App)
 - Backend: Node.js + Fastify (API)
 - Database: Firestore
-- AI: OpenAI API
+- AI: Google gemini API
 - Deployment: Google Cloud Run
 
 ---
