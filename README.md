@@ -217,3 +217,39 @@ Admin can:
 6. Add AI refinement service
 7. Add media upload + compression
 8. Deploy Cloud Run (backend first, then frontend)
+
+---
+
+## 13) Current Delivery Status
+
+- Part 1 complete: Next.js 14 UI flow (Role Select, Login PIN, Dashboard, Reports)
+- Part 2 started: Firestore integration for customer registry via Next.js Route Handler (`/api/customers`)
+- Customer module available at `/customers` for create/list customer records
+
+---
+
+## 14) Cloud Build + Cloud Run (GitHub latest commit)
+
+This repository includes `cloudbuild.yaml` for CI/CD from GitHub trigger.
+
+### Required setup (one-time)
+1. Connect GitHub repository to Cloud Build trigger (branch: `main` or working branch).
+2. Create Artifact Registry Docker repo in region `asia-east1`.
+3. Grant Cloud Build service account roles:
+   - Cloud Run Admin
+   - Artifact Registry Writer
+   - Service Account User (for Cloud Run runtime SA)
+4. Set Cloud Run environment variables from `apps/web/.env.example`.
+
+### Pipeline behavior
+- Build container from `apps/web/Dockerfile`
+- Push image to Artifact Registry
+- Deploy latest image to Cloud Run service `sales-web`
+
+### Manual deploy fallback
+```bash
+gcloud run deploy sales-web \
+  --source apps/web \
+  --region asia-east1 \
+  --allow-unauthenticated
+```
