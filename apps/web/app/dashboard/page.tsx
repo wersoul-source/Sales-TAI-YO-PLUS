@@ -2,14 +2,14 @@ import Link from 'next/link';
 import { PageShell } from '@/components/page-shell';
 
 const modules = [
-  'Lead Pipeline',
-  'Opportunity Tracking',
-  'Customer 360',
-  'Quote Center',
-  'Order Status',
-  'Activity Timeline',
-  'Team Performance',
-  'Forecast Console'
+  { name: 'Customer Registry', href: '/customers', description: 'จัดเก็บข้อมูลลูกค้าลง Firestore' },
+  { name: 'Lead Pipeline', href: '#', description: 'UI Placeholder' },
+  { name: 'Opportunity Tracking', href: '#', description: 'UI Placeholder' },
+  { name: 'Quote Center', href: '#', description: 'UI Placeholder' },
+  { name: 'Order Status', href: '#', description: 'UI Placeholder' },
+  { name: 'Activity Timeline', href: '#', description: 'UI Placeholder' },
+  { name: 'Team Performance', href: '#', description: 'UI Placeholder' },
+  { name: 'Forecast Console', href: '#', description: 'UI Placeholder' }
 ];
 
 export default function DashboardPage({
@@ -30,9 +30,16 @@ export default function DashboardPage({
         </div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {modules.map((module) => (
-            <article key={module} className="rounded-xl border border-border bg-slate-50 p-4">
-              <p className="text-sm font-medium text-slate-800">{module}</p>
-              <p className="mt-2 text-xs text-slate-500">UI Placeholder</p>
+            <article key={module.name} className="rounded-xl border border-border bg-slate-50 p-4">
+              <p className="text-sm font-medium text-slate-800">{module.name}</p>
+              <p className="mt-2 text-xs text-slate-500">{module.description}</p>
+              {module.href === '#' ? (
+                <span className="mt-3 inline-block text-xs text-slate-400">พร้อมใช้งานในเฟสถัดไป</span>
+              ) : (
+                <Link href={module.href} className="mt-3 inline-block text-xs font-medium text-blue-600">
+                  เปิดโมดูล
+                </Link>
+              )}
             </article>
           ))}
         </div>

@@ -1,7 +1,7 @@
 FROM node:20-alpine AS deps
 WORKDIR /app
 COPY package.json package-lock.json* ./
-RUN npm install
+RUN if [ -f package-lock.json ]; then npm ci --omit=optional; else npm install --omit=optional; fi
 
 FROM node:20-alpine AS builder
 WORKDIR /app
@@ -15,10 +15,9 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=8080
 
-COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/public ./public
-COPY --from=builder /app/node_modules ./node_modules
 
 EXPOSE 8080
-CMD ["sh", "-c", "npx next start -p ${PORT}"]
+CMD ["node", "server.js"]
